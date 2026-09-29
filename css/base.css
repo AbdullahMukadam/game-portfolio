@@ -1,0 +1,201 @@
+:root {
+  --bg-parchment: #e8cfa6;
+  --bg-parchment-dark: #d4b483;
+  --border-wood: #5a3a29;
+  --text-dark: #3e2723;
+  --bg-overlay: rgba(20, 25, 30, 0.85);
+  --text-light: #fefefe;
+  --highlight-gold: #fbf236;
+  --highlight-cyan: #4dd0e1;
+  --line-cyan: #4dd0e1;
+  --health-red: #d95763;
+  --mana-blue: #59b6e8;
+  --ocean-water: #64b5f6;
+  --surface-well: #1b222b;
+  --edge-dark: #3a2418;
+  --edge-soft: #8a6248;
+  --ink-soft: #6d4a2f;
+  --ink-on-dark: #f2e4c8;
+  --grass: #8bc34a;
+  --scrim: rgba(12, 16, 21, 0.72);
+
+  --pin-experience: #d95763;
+  --pin-skills: #4dd0e1;
+  --pin-projects: #fbf236;
+  --pin-resume: #fbf236;
+
+  --font-ui: 'Press Start 2P', cursive;
+  --font-read: 'VT323', monospace;
+
+  /* Three sizes only: --t-read for prose, --t-10 for UI chrome, --t-12 for headings */
+  --t-10: 12px;
+  --t-11: 12px;
+  --t-12: 14px;
+  --t-read: 24px;
+  --lh-ui: 1.7;
+
+  --s-1: 2px;
+  --s-2: 4px;
+  --s-3: 6px;
+  --s-4: 8px;
+  --s-5: 10px;
+  --s-6: 12px;
+  --s-7: 16px;
+
+  --radius: 2px;
+  --bevel-hi: rgba(255, 255, 255, 0.45);
+  --bevel-lo: rgba(0, 0, 0, 0.18);
+  --drop: rgba(30, 18, 10, 0.4);
+
+  --edge-raised: inset 2px 2px 0 0 var(--bevel-hi),
+    inset -2px -2px 0 0 var(--bevel-lo), 3px 3px 0 0 var(--drop);
+  --edge-raised-lg: inset 4px 4px 0 0 var(--bevel-hi),
+    inset -4px -4px 0 0 var(--bevel-lo), 6px 6px 0 0 var(--drop);
+  --edge-sunken: inset 2px 2px 0 0 var(--drop),
+    inset -2px -2px 0 0 var(--bevel-hi);
+  --edge-chrome: inset 2px 2px 0 0 rgba(255, 255, 255, 0.12),
+    inset -2px -2px 0 0 rgba(0, 0, 0, 0.5), 3px 3px 0 0 var(--drop);
+
+  --border-frame: 4px;
+  --border-inner: 2px;
+  --tap: 44px;
+
+  /* Layer scale. Raise in this order, never with a bare number. */
+  --z-touch: 8;
+  --z-zones: 15;
+  --z-hud: 20;
+  --z-settings: 26;
+  --z-ui: 30;
+  --z-modal: 60;
+  --z-scanlines: 80;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-family: var(--font-read);
+  font-size: var(--t-read);
+  line-height: 1.4;
+  color: var(--text-dark);
+  background-color: #000;
+  touch-action: none;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--t-10);
+  line-height: var(--lh-ui);
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: var(--font-ui);
+  font-size: var(--t-10);
+  line-height: var(--lh-ui);
+  color: inherit;
+  background: none;
+  cursor: pointer;
+}
+
+kbd {
+  font-family: var(--font-ui);
+  font-size: var(--t-10);
+  line-height: var(--lh-ui);
+}
+
+:where(button, a, [tabindex]):focus-visible {
+  outline: 2px solid var(--highlight-gold);
+  outline-offset: 2px;
+}
+
+.game-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+
+  font-size: 16px;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#ui-layer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-ui);
+  pointer-events: none;
+}
+
+#ui-layer > .modal,
+#ui-layer > #settingsToggle,
+#ui-layer > #settingsPanel {
+  pointer-events: auto;
+}
+
+.modal-frame {
+  color: var(--text-dark);
+  background-color: var(--bg-parchment);
+  border: var(--border-frame) solid var(--border-wood);
+  border-radius: var(--radius);
+  box-shadow: var(--edge-raised-lg);
+  image-rendering: pixelated;
+}
+
+.chrome-frame {
+  color: var(--ink-on-dark);
+  background-color: var(--bg-overlay);
+  border: var(--border-inner) solid var(--border-wood);
+  border-radius: var(--radius);
+  box-shadow: var(--edge-chrome);
+  image-rendering: pixelated;
+}
+
+.icon {
+  display: block;
+  flex: none;
+  image-rendering: pixelated;
+}
+
+/* CRT scanlines. 1px dark rule every 3px averages to roughly 4% darkening. */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-scanlines);
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.12) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :where(button, a, .pixel-button, .slot):active {
+    transform: translateY(1px);
+  }
+}

@@ -1,0 +1,156 @@
+.mapcard {
+  position: absolute;
+  right: var(--s-6);
+  bottom: var(--s-6);
+  z-index: var(--z-hud);
+  width: max-content;
+  max-width: 100%;
+  max-height: calc(100dvh - var(--s-7));
+  overflow: hidden auto;
+  padding: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.mapcard__title {
+  font-size: var(--t-10);
+  line-height: var(--lh-ui);
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+.mapcard__field {
+  position: relative;
+  flex: none;
+  width: clamp(112px, 30vw, 150px);
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background-color: var(--ocean-water);
+  border: var(--border-inner) solid var(--border-wood);
+  border-radius: var(--radius);
+  box-shadow: var(--edge-sunken);
+}
+
+.minimap__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.minimap__island {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: var(--grass);
+
+  box-shadow: inset 3px 0 0 0 var(--bevel-lo),
+    inset -3px 0 0 0 var(--bevel-hi);
+}
+
+.minimap__pin {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -4px 0 0 -4px;
+  background-color: var(--pin-experience);
+  border: 1px solid var(--border-wood);
+  box-sizing: border-box;
+}
+
+.minimap__pin[data-zone='skills'] {
+  background-color: var(--pin-skills);
+}
+
+.minimap__pin[data-zone='projects'] {
+  background-color: var(--pin-projects);
+}
+
+.minimap__pin[data-zone='vault'] {
+  background-color: var(--pin-resume);
+}
+
+.minimap__pin--player {
+  z-index: 2;
+  background-color: var(--mana-blue);
+  border-color: var(--edge-dark);
+}
+
+.minimap__pin--current {
+  z-index: 3;
+  box-shadow: 0 0 0 2px var(--highlight-gold);
+}
+
+.mapcard__key {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding-top: var(--s-3);
+  border-top: var(--border-inner) solid var(--edge-soft);
+}
+
+.keyrow {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-width: 0;
+  font-size: var(--t-10);
+  line-height: var(--lh-ui);
+  color: var(--text-dark);
+}
+
+.keyrow__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  background-color: var(--bg-parchment-dark);
+  border: 1px solid var(--edge-soft);
+  border-radius: var(--radius);
+}
+
+.keyrow__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.keyrow--current {
+  color: var(--ink-soft);
+}
+
+.keyrow--current .keyrow__icon {
+  background-color: var(--bg-parchment);
+  border-color: var(--highlight-gold);
+  box-shadow: 0 0 0 2px var(--bevel-hi);
+}
+
+/* Narrow desktop: shrink the field rather than scaling the whole card, which
+   would blur the pixel font and skip reflow. */
+@media (max-width: 860px) {
+  .mapcard {
+    right: var(--s-4);
+    bottom: var(--s-4);
+  }
+}
+
+/* Touch: the bottom-right corner belongs to the A button, so the card moves
+   under the settings gear at the top, where a GBA minimap would sit anyway. */
+@media (hover: none) and (pointer: coarse) {
+  .mapcard {
+    top: calc(max(var(--s-6), env(safe-area-inset-top, 0px)) + 68px);
+    right: max(var(--s-4), env(safe-area-inset-right, 0px));
+    bottom: auto;
+  }
+
+  .mapcard__title {
+    display: none;
+  }
+}
+
+@media (max-height: 520px) {
+  .mapcard__key {
+    display: none;
+  }
+}

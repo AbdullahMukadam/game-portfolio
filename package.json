@@ -1,0 +1,11 @@
+{
+  "name": "game-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pixel-art overworld that doubles as a portfolio",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}

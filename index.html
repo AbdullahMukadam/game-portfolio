@@ -1,200 +1,307 @@
-<head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-    rel="stylesheet"
-  />
-  <style>
-    * {
-      font-family: 'Press Start 2P', cursive;
-      box-sizing: border-box;
-    }
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Abdullah Mukadam — Fullstack Developer</title>
+    <meta
+      name="description"
+      content="Abdullah Mukadam is a fullstack developer from India. Walk around a pixel-art overworld and open his experience, skills, projects and vault."
+    />
+    <meta name="author" content="Abdullah Mukadam" />
+    <meta name="theme-color" content="#1b222b" />
 
-    body {
-      background-color: black;
-    }
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Abdullah Mukadam — Fullstack Developer" />
+    <meta
+      property="og:description"
+      content="A pixel-art overworld that doubles as a portfolio. Experience, skills, projects and vault."
+    />
+    <meta name="twitter:card" content="summary" />
 
-    h1 {
-      margin: 0;
-    }
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 
-    button {
-      border: 0;
-      cursor: pointer;
-      font-size: 16px;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=VT323&amp;family=Press+Start+2P&amp;display=swap"
+    />
 
-    button:hover {
-      background-color: #ddd;
-    }
-  </style>
-</head>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/hud.css" />
+    <link rel="stylesheet" href="css/minimap.css" />
+    <link rel="stylesheet" href="css/zones.css" />
+    <link rel="stylesheet" href="css/modals.css" />
+    <link rel="stylesheet" href="css/dialogue.css" />
+    <link rel="stylesheet" href="css/settings.css" />
+    <link rel="stylesheet" href="css/touch-controls.css" />
+  </head>
+  <body>
+    <div class="game-wrapper">
 
-<div style="display: inline-block; position: relative">
-  <div
-    id="overlappingDiv"
-    style="
-      background-color: black;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 10;
-    "
-  ></div>
+      <canvas id="game-canvas"></canvas>
 
-  <canvas></canvas>
-  <div
-    id="characterDialogueBox"
-    style="
-      background-color: white;
-      height: 140px;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-top: 4px black solid;
-      display: none;
-      padding: 12px;
-    "
-  ></div>
+      <div id="ui-layer">
 
-  <div id="userInterface" style="display: none">
-    <!-- Represents health bar of draggle (enemy) -->
-    <div
-      style="
-        background-color: white;
-        width: 250px;
-        position: absolute;
-        top: 50px;
-        left: 50px;
-        border: 4px black solid;
-        padding: 12px;
-      "
-    >
-      <h1 style="font-size: 16px">Draggle</h1>
-      <div style="position: relative">
+        <div class="zone-layer" id="zoneLayer">
+          <div class="zone-indicators" id="zoneIndicators"></div>
+
+          <div class="tooltip" id="proximityTooltip">
+            <div class="tooltip__box chrome-frame" id="tooltipBox">
+              <span class="tooltip__key" id="tooltipKey">E</span>
+              <span class="tooltip__text" id="tooltipText">Press [E]</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud" id="hud">
+          <div class="hud__vitals">
+            <div class="vital">
+              <span class="vital__label">
+                <span>Career Health</span>
+                <span class="vital__value" id="careerValue">0%</span>
+              </span>
+              <div class="bar bar--health">
+                <i class="bar__fill" id="careerHealthFill"></i>
+              </div>
+            </div>
+
+            <div class="vital">
+              <span class="vital__label">
+                <span>Project Mana</span>
+                <span class="vital__value" id="manaValue">0%</span>
+              </span>
+              <div class="bar bar--mana">
+                <i class="bar__fill" id="projectManaFill"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="hud__controls chrome-frame">
+            <span><span class="hud__key">[WASD]</span> MOVE</span>
+            <span class="hud__sep">,</span>
+            <span><span class="hud__key">[E]</span> INTERACT</span>
+          </div>
+        </div>
+
+        <section class="mapcard modal-frame" aria-label="Map and key">
+          <h2 class="mapcard__title">Map</h2>
+
+          <div class="mapcard__field" id="minimapField">
+            <div class="minimap__layer" id="minimapIslands"></div>
+            <div class="minimap__layer" id="minimapPins"></div>
+          </div>
+
+          <div class="mapcard__key" id="legend" role="list"></div>
+        </section>
+
+        <div id="characterDialogueBox"></div>
+
+        <button
+          class="settings-toggle"
+          id="settingsToggle"
+          type="button"
+          aria-label="Open settings"
+          aria-expanded="false"
+          aria-controls="settingsPanel"
+        >
+          <span aria-hidden="true">⚙</span>
+        </button>
+
         <div
-          style="height: 5px; background-color: #ccc; margin-top: 10px"
-        ></div>
+          class="settings-panel"
+          id="settingsPanel"
+          role="dialog"
+          aria-label="Settings"
+          hidden
+        >
+          <div class="settings-panel__head">
+            <h1>Settings</h1>
+            <button
+              class="settings-panel__close"
+              id="settingsClose"
+              type="button"
+              aria-label="Close settings"
+            >
+              <span aria-hidden="true">✕</span>
+            </button>
+          </div>
+
+          <div class="settings-row settings-row--stack" data-touch-only>
+            <span class="settings-row__label" id="stickSizeLabel">Stick size</span>
+            <div class="segmented" role="group" aria-labelledby="stickSizeLabel">
+              <button type="button" data-setting="stickSize" data-value="small">
+                S
+              </button>
+              <button type="button" data-setting="stickSize" data-value="medium">
+                M
+              </button>
+              <button type="button" data-setting="stickSize" data-value="large">
+                L
+              </button>
+            </div>
+          </div>
+
+          <div class="settings-row settings-row--stack" data-touch-only>
+            <span class="settings-row__label" id="positionLabel">Position</span>
+            <div class="segmented" role="group" aria-labelledby="positionLabel">
+              <button type="button" id="positionMove" aria-pressed="false">
+                Move
+              </button>
+              <button type="button" id="positionReset">Reset</button>
+            </div>
+          </div>
+
+          <p class="settings-hint" id="moveHint" hidden>
+            Drag the stick anywhere on screen to reposition it.
+          </p>
+
+          <div class="settings-row">
+            <span class="settings-row__label" id="musicLabel">Music</span>
+            <div class="segmented" role="group" aria-labelledby="musicLabel">
+              <button type="button" data-setting="music" data-value="on">On</button>
+              <button type="button" data-setting="music" data-value="off">Off</button>
+            </div>
+          </div>
+
+          <button class="settings-panel__reset" id="settingsReset" type="button">
+            Reset to defaults
+          </button>
+        </div>
+
+        <div class="mobile-controls" id="mobileControls" aria-label="Touch controls">
+          <div class="joystick" id="joystick">
+            <div class="joystick__base" id="joystickBase">
+              <div class="joystick__knob" id="joystickKnob"></div>
+            </div>
+          </div>
+
+          <button
+            class="interact-button"
+            id="interactButton"
+            type="button"
+            aria-label="Interact with the zone in front of you"
+          >
+            <span class="interact-button__glyph" aria-hidden="true">A</span>
+          </button>
+        </div>
+
         <div
-          id="enemyHealthBar"
-          style="
-            height: 5px;
-            background-color: green;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-          "
-        ></div>
+          class="modal"
+          id="modalGuild"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modalGuildTitle"
+        >
+          <div class="modal__panel modal-frame">
+            <div class="modal__head">
+              <h2 class="modal__heading" id="modalGuildTitle">Experience Guild</h2>
+              <button
+                class="modal__close"
+                id="guildClose"
+                type="button"
+                aria-label="Close Experience Guild"
+              >
+                <span aria-hidden="true">✕</span>
+              </button>
+            </div>
+            <div class="modal__body" id="guildBody"></div>
+            <p class="modal__hint"><kbd>ESC</kbd> OR TAP OUTSIDE TO CLOSE</p>
+          </div>
+        </div>
+
+        <div
+          class="modal"
+          id="modalSkills"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modalSkillsTitle"
+        >
+          <div class="modal__panel modal-frame">
+            <div class="modal__head">
+              <h2 class="modal__heading" id="modalSkillsTitle">Tech Skill Tree</h2>
+              <button
+                class="modal__close"
+                id="skillsClose"
+                type="button"
+                aria-label="Close Tech Skill Tree"
+              >
+                <span aria-hidden="true">✕</span>
+              </button>
+            </div>
+            <div class="modal__body" id="skillsBody"></div>
+            <p class="modal__hint"><kbd>ESC</kbd> OR TAP OUTSIDE TO CLOSE</p>
+          </div>
+        </div>
+
+        <div
+          class="modal"
+          id="modalProjects"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modalProjectsTitle"
+        >
+          <div class="modal__panel modal-frame">
+            <div class="modal__head">
+              <h2 class="modal__heading" id="modalProjectsTitle">Project Forge</h2>
+              <button
+                class="modal__close"
+                id="projectsClose"
+                type="button"
+                aria-label="Close Project Forge"
+              >
+                <span aria-hidden="true">✕</span>
+              </button>
+            </div>
+            <div class="modal__body" id="projectsBody"></div>
+            <p class="modal__hint"><kbd>ESC</kbd> OR TAP OUTSIDE TO CLOSE</p>
+          </div>
+        </div>
+
+        <div
+          class="modal"
+          id="modalVault"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modalVaultTitle"
+        >
+          <div class="modal__panel modal-frame">
+            <div class="modal__head">
+              <h2 class="modal__heading" id="modalVaultTitle">Equipment &amp; Vault</h2>
+              <button
+                class="modal__close"
+                id="vaultClose"
+                type="button"
+                aria-label="Close Vault"
+              >
+                <span aria-hidden="true">✕</span>
+              </button>
+            </div>
+            <div class="modal__body" id="vaultBody"></div>
+            <p class="modal__hint"><kbd>ESC</kbd> OR TAP OUTSIDE TO CLOSE</p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Represents health bar of emby (us) -->
-    <div
-      style="
-        background-color: white;
-        width: 250px;
-        position: absolute;
-        top: 330px;
-        right: 50px;
-        border: 4px black solid;
-        padding: 12px;
-      "
-    >
-      <h1 style="font-size: 16px">Emby</h1>
-      <div style="position: relative">
-        <div
-          style="height: 5px; background-color: #ccc; margin-top: 10px"
-        ></div>
-        <div
-          id="playerHealthBar"
-          style="
-            height: 5px;
-            background-color: green;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-          "
-        ></div>
-      </div>
-    </div>
+    <div class="scanlines" aria-hidden="true"></div>
 
-    <div
-      style="
-        background-color: white;
-        height: 140px;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        border-top: 4px black solid;
-        display: flex;
-      "
-    >
-      <div
-        id="dialogueBox"
-        style="
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background-color: white;
-          padding: 12px;
-          display: none;
-          cursor: pointer;
-        "
-      >
-        sdkfjlsdajl
-      </div>
-      <div
-        id="attacksBox"
-        style="
-          width: 66.66%;
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-        "
-      ></div>
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 33.33%;
-          border-left: 4px black solid;
-        "
-      >
-        <h1 id="attackType" style="font-size: 16px">Attack Type</h1>
-      </div>
-    </div>
-  </div>
-</div>
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
-  integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-></script>
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
-  integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-></script>
-<script src="data/audio.js"></script>
-<script src="data/battleZones.js"></script>
-<script src="data/collisions.js"></script>
-<script src="data/attacks.js"></script>
-<script src="data/monsters.js"></script>
-<script src="data/characters.js"></script>
-<script src="js/utils.js"></script>
-<script src="classes.js"></script>
-<script src="index.js"></script>
-<script src="battleScene.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
+      integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+      integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

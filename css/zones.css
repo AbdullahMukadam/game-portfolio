@@ -1,0 +1,120 @@
+
+
+.zone-layer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-zones);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  will-change: transform;
+}
+
+.indicator[hidden] {
+  display: none;
+}
+
+.indicator__icon {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--highlight-gold);
+  background-color: var(--bg-overlay);
+  border: var(--border-inner) solid var(--highlight-gold);
+  border-radius: var(--radius);
+  box-shadow: var(--edge-chrome);
+
+  animation: bob 1.4s ease-in-out infinite;
+  animation-delay: calc(var(--bob-offset, 0) * -1s);
+}
+
+.indicator--near .indicator__icon {
+  color: var(--text-light);
+  background-color: var(--bg-overlay);
+  border-color: var(--highlight-cyan);
+  animation-duration: 0.7s;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator__icon {
+    animation: none;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.tooltip__box {
+  position: absolute;
+  bottom: var(--s-6);
+  left: 50%;
+  transform: translate(-50%, 6px);
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  max-width: min(80%, 320px);
+  padding: var(--s-4) var(--s-5);
+  font-size: var(--t-11);
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.12s steps(3), transform 0.12s steps(3),
+    visibility 0s linear 0.12s;
+}
+
+.tooltip__box.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition: opacity 0.12s steps(3), transform 0.12s steps(3), visibility 0s;
+}
+
+.tooltip__key {
+  display: grid;
+  place-items: center;
+  flex: none;
+  min-width: 22px;
+  padding: var(--s-1) var(--s-2);
+  color: var(--text-dark);
+  background-color: var(--bg-parchment);
+  border: var(--border-inner) solid var(--highlight-gold);
+  border-radius: var(--radius);
+}
+
+.tooltip__text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--highlight-cyan);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .tooltip__box {
+    max-width: min(88%, 300px);
+    padding: var(--s-3) var(--s-4);
+    font-size: var(--t-10);
+  }
+}

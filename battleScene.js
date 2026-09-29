@@ -32,7 +32,7 @@ function initBattle() {
     document.querySelector('#attacksBox').append(button)
   })
 
-  // our event listeners for our buttons (attack)
+
   document.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (e) => {
       const selectedAttack = attacks[e.currentTarget.innerHTML]
@@ -66,7 +66,6 @@ function initBattle() {
         })
       }
 
-      // draggle or enemy attacks right here
       const randomAttack =
         draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)]
 
@@ -83,7 +82,6 @@ function initBattle() {
           })
 
           queue.push(() => {
-            // fade back to black
             gsap.to('#overlappingDiv', {
               opacity: 1,
               onComplete: () => {
@@ -115,8 +113,6 @@ function initBattle() {
 function animateBattle() {
   battleAnimationId = window.requestAnimationFrame(animateBattle)
   battleBackground.draw()
-
-  console.log(battleAnimationId)
 
   renderedSprites.forEach((sprite) => {
     sprite.draw()
