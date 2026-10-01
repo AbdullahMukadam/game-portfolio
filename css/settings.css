@@ -7,8 +7,8 @@
   place-items: center;
   width: clamp(var(--tap), 8vmin, 52px);
   height: clamp(var(--tap), 8vmin, 52px);
-  color: var(--text-light);
-  font-size: clamp(13px, 3.4vmin, 18px);
+  color: var(--text-dark);
+  font-size: clamp(14px, 3.6vmin, 20px);
   line-height: 1;
   background-color: var(--bg-overlay);
   border: var(--border-inner) solid var(--border-wood);
@@ -22,8 +22,8 @@
 
 .settings-toggle[aria-expanded='true'] {
   color: var(--text-dark);
-  background-color: var(--bg-parchment);
-  border-color: var(--highlight-gold);
+  background-color: var(--bg-parchment-dark);
+  border-color: var(--highlight-gold-bright);
 }
 
 .settings-panel {
@@ -38,11 +38,12 @@
   padding: var(--s-6);
   font-size: var(--t-10);
   line-height: var(--lh-ui);
-  color: var(--text-light);
+  color: var(--text-dark);
   background-color: var(--bg-overlay);
   border: var(--border-inner) solid var(--border-wood);
   border-radius: var(--radius);
   box-shadow: var(--edge-chrome);
+  backdrop-filter: blur(4px);
 }
 
 .settings-panel[hidden] {
@@ -61,7 +62,9 @@
 
 .settings-panel__head h1 {
   font-size: var(--t-10);
-  color: var(--highlight-gold);
+  color: var(--text-dark);
+  font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
 .settings-panel__close {
@@ -70,15 +73,16 @@
   flex: none;
   width: var(--tap);
   height: var(--tap);
-  color: inherit;
-  background-color: transparent;
+  color: var(--text-dark);
+  background-color: #ffffff;
   border: var(--border-inner) solid var(--border-wood);
   border-radius: var(--radius);
+  box-shadow: 0 1px 0 var(--border-wood);
 }
 
 .settings-panel__close:hover,
 .settings-panel__close:focus-visible {
-  color: var(--text-light);
+  color: #ffffff;
   background-color: var(--health-red);
   border-color: var(--health-red);
 }
@@ -108,34 +112,34 @@
 .settings-row__label {
   flex: 1;
   min-width: 0;
-  color: var(--text-light);
+  color: var(--text-dark);
+  font-weight: bold;
 }
 
 .settings-hint {
   margin: 0 0 var(--s-5);
-  color: var(--highlight-cyan);
+  color: var(--highlight-gold-bright);
 }
 
 .settings-hint[hidden] {
   display: none;
 }
 
-/* Scoped: the settings panel sits on dark chrome, so its segmented control
-   needs light text. The shared .segmented in modals.css is on parchment. */
 .settings-panel .segmented {
   display: flex;
   flex: none;
   overflow: hidden;
   border: var(--border-inner) solid var(--border-wood);
   border-radius: var(--radius);
+  box-shadow: var(--edge-raised);
 }
 
 .settings-panel .segmented button {
   min-width: 32px;
   min-height: 28px;
   padding: var(--s-3) var(--s-4);
-  color: var(--text-light);
-  background-color: transparent;
+  color: var(--text-dark);
+  background-color: #ffffff;
   border-left: var(--border-inner) solid var(--border-wood);
 }
 
@@ -145,30 +149,33 @@
 
 .settings-panel .segmented button:hover,
 .settings-panel .segmented button:focus-visible {
-  color: var(--text-dark);
+  color: #ffffff;
   background-color: var(--highlight-cyan);
 }
 
 .settings-panel .segmented button[aria-pressed='true'] {
-  color: var(--text-dark);
-  background-color: var(--bg-parchment);
-  border-color: var(--highlight-gold);
+  color: #ffffff;
+  background-color: var(--border-wood);
+  border-color: var(--border-wood);
 }
 
 .settings-panel__reset {
   width: 100%;
   margin-top: var(--s-2);
   padding: var(--s-4);
-  color: var(--text-light);
-  background-color: transparent;
+  color: var(--text-dark);
+  background-color: #ffffff;
   border: var(--border-inner) solid var(--border-wood);
   border-radius: var(--radius);
+  box-shadow: 0 2px 0 var(--border-wood);
+  font-weight: bold;
 }
 
 .settings-panel__reset:hover,
 .settings-panel__reset:focus-visible {
-  color: var(--text-dark);
-  background-color: var(--highlight-cyan);
+  color: #ffffff;
+  background-color: var(--health-red);
+  border-color: var(--health-red);
 }
 
 @media (hover: none) and (pointer: coarse) {

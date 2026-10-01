@@ -12,40 +12,111 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   will-change: transform;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
 }
 
 .indicator[hidden] {
   display: none;
 }
 
+.indicator[data-zone='guild'] {
+  --reticle: #0ea5e9;
+  --reticle-glow: rgba(14, 165, 233, 0.65);
+}
+.indicator[data-zone='skills'] {
+  --reticle: #f59e0b;
+  --reticle-glow: rgba(245, 158, 11, 0.65);
+}
+.indicator[data-zone='projects'] {
+  --reticle: #ef4444;
+  --reticle-glow: rgba(239, 68, 68, 0.65);
+}
+.indicator[data-zone='vault'] {
+  --reticle: #10b981;
+  --reticle-glow: rgba(16, 185, 129, 0.65);
+}
+
+/* 4 corner brackets matching the targeting reticle in the screenshot */
+.indicator__reticle {
+  position: absolute;
+  inset: -6px;
+  pointer-events: none;
+  border-radius: 6px;
+  background:
+    linear-gradient(var(--reticle), var(--reticle)) top left / 9px 2.5px no-repeat,
+    linear-gradient(var(--reticle), var(--reticle)) top left / 2.5px 9px no-repeat,
+    linear-gradient(var(--reticle), var(--reticle)) top right / 9px 2.5px no-repeat,
+    linear-gradient(var(--reticle), var(--reticle)) top right / 2.5px 9px no-repeat,
+    linear-gradient(var(--reticle), var(--reticle)) bottom left / 9px 2.5px no-repeat,
+    linear-gradient(var(--reticle), var(--reticle)) bottom left / 2.5px 9px no-repeat,
+    linear-gradient(var(--reticle), var(--reticle)) bottom right / 9px 2.5px no-repeat,
+    linear-gradient(var(--reticle), var(--reticle)) bottom right / 2.5px 9px no-repeat;
+  filter: drop-shadow(0 0 3px var(--reticle));
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+}
+
+.indicator--near .indicator__reticle {
+  transform: scale(1.18);
+  filter: drop-shadow(0 0 8px var(--reticle));
+}
+
 .indicator__icon {
-  display: grid;
-  place-items: center;
+  position: relative;
   width: 100%;
   height: 100%;
-  color: var(--highlight-gold);
-  background-color: var(--bg-overlay);
-  border: var(--border-inner) solid var(--highlight-gold);
-  border-radius: var(--radius);
-  box-shadow: var(--edge-chrome);
-
-  animation: bob 1.4s ease-in-out infinite;
+  border-radius: 50%;
+  border: 2px solid #3b2214;
+  outline: 2px solid var(--reticle);
+  background-color: #1a1a1a;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45), inset 0 0 6px rgba(0, 0, 0, 0.5);
+  animation: indicator-bob 1.8s ease-in-out infinite;
   animation-delay: calc(var(--bob-offset, 0) * -1s);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, outline-color 0.2s ease;
+}
+
+.indicator__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  image-rendering: auto;
+  transform: scale(1.06);
+}
+
+.indicator__pin {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid var(--reticle);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.4));
+  animation: indicator-pin-pulse 1.8s ease-in-out infinite;
+  animation-delay: calc(var(--bob-offset, 0) * -1s);
+  transition: border-top-color 0.2s ease;
 }
 
 .indicator--near .indicator__icon {
-  color: var(--text-light);
-  background-color: var(--bg-overlay);
-  border-color: var(--highlight-cyan);
-  animation-duration: 0.7s;
+  outline-color: #fde047;
+  outline-width: 2.5px;
+  box-shadow: 0 0 0 3px var(--reticle-glow), 0 0 16px var(--reticle-glow), 0 6px 12px rgba(0, 0, 0, 0.4);
+  animation-duration: 0.9s;
 }
 
-@keyframes bob {
-  0%,
-  100% {
+.indicator--near .indicator__pin {
+  border-top-color: #fde047;
+  animation-duration: 0.9s;
+}
+
+@keyframes indicator-bob {
+  0%, 100% {
     transform: translateY(0);
   }
   50% {
@@ -53,8 +124,18 @@
   }
 }
 
+@keyframes indicator-pin-pulse {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-6px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .indicator__icon {
+  .indicator__icon,
+  .indicator__pin {
     animation: none;
   }
 }
@@ -64,25 +145,41 @@
   top: 0;
   left: 0;
   will-change: transform;
+  z-index: calc(var(--z-zones) + 2);
 }
 
 .tooltip__box {
   position: absolute;
-  bottom: var(--s-6);
+  bottom: 12px;
   left: 50%;
   transform: translate(-50%, 6px);
   display: flex;
-  align-items: center;
-  gap: var(--s-4);
-  max-width: min(80%, 320px);
-  padding: var(--s-4) var(--s-5);
-  font-size: var(--t-11);
-  text-align: center;
-  white-space: nowrap;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 14px;
+  background-color: #272318;
+  border: 2px solid #ecd176;
+  border-radius: 2px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 0 0 1px #48391b;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.12s steps(3), transform 0.12s steps(3),
     visibility 0s linear 0.12s;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+.tooltip__box::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #ecd176;
 }
 
 .tooltip__box.active {
@@ -92,29 +189,34 @@
   transition: opacity 0.12s steps(3), transform 0.12s steps(3), visibility 0s;
 }
 
+.tooltip__badge {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  color: #fde047;
+  letter-spacing: 0.5px;
+}
+
+.tooltip__body {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+  line-height: 1.4;
+}
+
 .tooltip__key {
-  display: grid;
-  place-items: center;
-  flex: none;
-  min-width: 22px;
-  padding: var(--s-1) var(--s-2);
-  color: var(--text-dark);
-  background-color: var(--bg-parchment);
-  border: var(--border-inner) solid var(--highlight-gold);
-  border-radius: var(--radius);
+  color: #fde047;
+  font-weight: bold;
 }
 
 .tooltip__text {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--highlight-cyan);
+  color: #ffffff;
 }
 
 @media (hover: none) and (pointer: coarse) {
   .tooltip__box {
-    max-width: min(88%, 300px);
-    padding: var(--s-3) var(--s-4);
-    font-size: var(--t-10);
+    padding: 6px 10px;
+    font-size: 8px;
   }
 }

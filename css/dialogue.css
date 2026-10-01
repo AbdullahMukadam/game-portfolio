@@ -6,18 +6,34 @@
   z-index: calc(var(--z-hud) + 1);
   display: none;
   max-height: 34vh;
-  padding: var(--s-7);
+  padding: var(--s-7) calc(var(--s-7) + 24px) var(--s-7) var(--s-7);
   overflow-y: auto;
   font-size: var(--t-read);
   line-height: 1.5;
   color: var(--text-dark);
-  background-color: var(--bg-parchment);
+  background-color: #ffffff;
   border-top: var(--border-frame) solid var(--border-wood);
-  box-shadow: inset 0 4px 0 0 var(--bevel-hi), 0 -6px 0 0 var(--drop);
+  box-shadow: inset 0 3px 0 0 #ffffff, inset 0 6px 0 0 var(--bg-parchment-dark), 0 -4px 12px var(--drop);
   cursor: pointer;
   pointer-events: auto;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+}
+
+#characterDialogueBox::after {
+  content: '▼';
+  position: absolute;
+  right: var(--s-6);
+  bottom: var(--s-5);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--health-red);
+  animation: dialogueBlink 0.8s steps(2, start) infinite;
+}
+
+@keyframes dialogueBlink {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.2; transform: translateY(2px); }
 }
 
 /* Touch: the stick and the A button own the bottom corners, so the dialogue
@@ -30,7 +46,7 @@
     transform: translateX(-50%);
     width: min(560px, calc(100% - var(--s-7)));
     max-height: 30vh;
-    padding: var(--s-6);
+    padding: var(--s-6) calc(var(--s-6) + 20px) var(--s-6) var(--s-6);
     border: var(--border-frame) solid var(--border-wood);
     border-radius: var(--radius);
     box-shadow: var(--edge-raised-lg);

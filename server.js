@@ -3,7 +3,7 @@ import { createReadStream } from 'node:fs'
 import { stat } from 'node:fs/promises'
 import { extname, join, normalize, sep } from 'node:path'
 
-const PORT = Number(process.env.PORT) || 5173
+const PORT = Number(process.env.PORT) || 3000
 const ROOT = process.cwd()
 
 const MIME_TYPES = {
@@ -62,6 +62,6 @@ const server = createServer(async (req, res) => {
   }
 })
 
-server.listen(PORT, () => {
-  console.log(`Game running at http://localhost:${PORT}`)
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Game running at http://0.0.0.0:${PORT}`)
 })

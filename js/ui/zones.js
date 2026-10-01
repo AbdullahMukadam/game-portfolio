@@ -43,14 +43,26 @@ export function createZones({ elements, viewport, gameState, onZoneChange }) {
     wrapper.className = 'indicator'
     wrapper.dataset.zone = zone.id
 
+    const reticle = document.createElement('div')
+    reticle.className = 'indicator__reticle'
+
     const icon = document.createElement('div')
     icon.className = 'indicator__icon'
-
     icon.style.setProperty('--bob-offset', String(index * 0.37))
-    icon.innerHTML = renderIcon(zone.icon, { size: 14 })
-    icon.title = zone.name
 
-    wrapper.append(icon)
+    const img = document.createElement('img')
+    img.src = `img/icons/${zone.id}.jpg`
+    img.alt = zone.name
+    img.className = 'indicator__img'
+    img.loading = 'eager'
+    img.referrerPolicy = 'no-referrer'
+
+    const pin = document.createElement('div')
+    pin.className = 'indicator__pin'
+    pin.style.setProperty('--bob-offset', String(index * 0.37))
+
+    icon.append(img)
+    wrapper.append(reticle, icon, pin)
     elements.indicators.append(wrapper)
 
     return { zone, wrapper }
@@ -109,7 +121,7 @@ export function createZones({ elements, viewport, gameState, onZoneChange }) {
       elements.tooltip.style.transform =
         `translate(${Math.round(point.x)}px, ${Math.round(point.y)}px) translate(-50%, -100%)`
 
-      elements.tooltipText.textContent = `Open ${current.name}`
+      elements.tooltipText.textContent = 'open dialogue'
     }
 
     elements.tooltipBox.classList.toggle('active', showTooltip)

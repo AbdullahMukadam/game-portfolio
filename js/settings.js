@@ -50,10 +50,12 @@ export function createSettings({ elements }) {
       elements.joystick.style.left = state.stickX + '%'
       elements.joystick.style.right = 'auto'
       elements.joystick.style.bottom = state.stickY + '%'
+      elements.joystick.style.transform = 'translate(-50%, 50%)'
     } else {
       elements.joystick.style.left = ''
       elements.joystick.style.right = ''
       elements.joystick.style.bottom = ''
+      elements.joystick.style.transform = ''
     }
 
     elements.panel.querySelectorAll('[data-setting]').forEach((button) => {
@@ -157,6 +159,8 @@ export function createSettings({ elements }) {
   window
     .matchMedia(COARSE_POINTER_QUERY)
     .addEventListener('change', applyTouchOnlyRows)
+
+  window.addEventListener('resize', applyTouchOnlyRows)
 
   apply()
   applyTouchOnlyRows()

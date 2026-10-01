@@ -37,6 +37,8 @@ function query() {
     projectMana: document.querySelector('#projectManaFill'),
     manaValue: document.querySelector('#manaValue'),
 
+    minimapField: document.querySelector('#minimapField'),
+    minimapViewport: document.querySelector('#minimapViewport'),
     minimapIslands: document.querySelector('#minimapIslands'),
     minimapPins: document.querySelector('#minimapPins'),
 
@@ -179,7 +181,7 @@ function boot() {
       gameState.setBlocked(dialogue.isOpen())
 
       zones.update({ player: entity, camera, zoom })
-      minimap.update({ player: entity })
+      minimap.update({ player: entity, camera, zoom })
     }
   })
 

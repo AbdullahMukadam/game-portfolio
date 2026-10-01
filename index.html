@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=VT323&amp;family=Press+Start+2P&amp;display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap"
     />
 
     <link rel="stylesheet" href="css/base.css" />
@@ -41,63 +41,81 @@
     <link rel="stylesheet" href="css/touch-controls.css" />
   </head>
   <body>
-    <div class="game-wrapper">
+    <div class="map-page-frame">
+      <header class="map-page-header">
+        <h1 class="map-page-title">WORLD MAP WITH SYSTEM INDICATORS</h1>
+      </header>
 
-      <canvas id="game-canvas"></canvas>
+      <div class="game-wrapper">
+        <canvas id="game-canvas"></canvas>
 
-      <div id="ui-layer">
+        <div id="ui-layer">
+          <div class="zone-layer" id="zoneLayer">
+            <div class="zone-indicators" id="zoneIndicators"></div>
 
-        <div class="zone-layer" id="zoneLayer">
-          <div class="zone-indicators" id="zoneIndicators"></div>
-
-          <div class="tooltip" id="proximityTooltip">
-            <div class="tooltip__box chrome-frame" id="tooltipBox">
-              <span class="tooltip__key" id="tooltipKey">E</span>
-              <span class="tooltip__text" id="tooltipText">Press [E]</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hud" id="hud">
-          <div class="hud__vitals">
-            <div class="vital">
-              <span class="vital__label">
-                <span>Career Health</span>
-                <span class="vital__value" id="careerValue">0%</span>
-              </span>
-              <div class="bar bar--health">
-                <i class="bar__fill" id="careerHealthFill"></i>
-              </div>
-            </div>
-
-            <div class="vital">
-              <span class="vital__label">
-                <span>Project Mana</span>
-                <span class="vital__value" id="manaValue">0%</span>
-              </span>
-              <div class="bar bar--mana">
-                <i class="bar__fill" id="projectManaFill"></i>
+            <div class="tooltip" id="proximityTooltip">
+              <div class="tooltip__box" id="tooltipBox">
+                <div class="tooltip__badge">Interaction Demo:</div>
+                <div class="tooltip__body">
+                  Approach &amp; Press [<span class="tooltip__key" id="tooltipKey">E</span>] to <span class="tooltip__text" id="tooltipText">open dialogue</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="hud__controls chrome-frame">
-            <span><span class="hud__key">[WASD]</span> MOVE</span>
+          <div class="hud" id="hud">
+            <div class="hud__card">
+              <div class="hud__avatar-box">
+                <img src="img/avatar.png" alt="Abdullah Mukadam" class="hud__avatar" />
+                <span class="hud__lvl">LV.99</span>
+              </div>
+
+              <div class="hud__info">
+                <div class="hud__identity">
+                  <span class="hud__name">Abdullah Mukadam</span>
+                  <span class="hud__class">Fullstack Dev</span>
+                </div>
+
+                <div class="hud__vitals">
+                  <div class="vital vital--health">
+                    <span class="vital__tag"><span class="vital__icon" aria-hidden="true">❤️</span> HP</span>
+                    <div class="bar bar--health">
+                      <i class="bar__fill" id="careerHealthFill"></i>
+                    </div>
+                    <span class="vital__value" id="careerValue">72%</span>
+                  </div>
+
+                  <div class="vital vital--mana">
+                    <span class="vital__tag"><span class="vital__icon" aria-hidden="true">💧</span> MP</span>
+                    <div class="bar bar--mana">
+                      <i class="bar__fill" id="projectManaFill"></i>
+                    </div>
+                    <span class="vital__value" id="manaValue">48%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hud__controls" id="hudControls">
+            <span class="hud__key-combo">[WASD] MOVE</span>
             <span class="hud__sep">,</span>
-            <span><span class="hud__key">[E]</span> INTERACT</span>
-          </div>
-        </div>
-
-        <section class="mapcard modal-frame" aria-label="Map and key">
-          <h2 class="mapcard__title">Map</h2>
-
-          <div class="mapcard__field" id="minimapField">
-            <div class="minimap__layer" id="minimapIslands"></div>
-            <div class="minimap__layer" id="minimapPins"></div>
+            <span class="hud__key-combo">[E] INTERACT</span>
           </div>
 
-          <div class="mapcard__key" id="legend" role="list"></div>
-        </section>
+          <div class="icon-legend-card" id="iconLegendCard">
+            <span class="icon-legend__title">ICON LEGEND:</span>
+            <div class="icon-legend__list" id="legend" role="list"></div>
+          </div>
+
+          <section class="fast-travel-card" id="fastTravelCard" aria-label="World minimap">
+            <div class="fast-travel__header">
+              <span class="fast-travel__title">WORLD MAP</span>
+            </div>
+            <div class="mapcard__field" id="minimapField">
+              <div class="minimap__layer" id="minimapPins"></div>
+            </div>
+          </section>
 
         <div id="characterDialogueBox"></div>
 
@@ -287,6 +305,7 @@
         </div>
       </div>
     </div>
+  </div>
 
     <div class="scanlines" aria-hidden="true"></div>
 

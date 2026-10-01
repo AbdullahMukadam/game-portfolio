@@ -6,6 +6,7 @@
   "description": "Pixel-art overworld that doubles as a portfolio",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "build": "echo 'No build required'"
   }
 }

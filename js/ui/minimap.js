@@ -1,29 +1,40 @@
 import { MAP_HEIGHT, MAP_WIDTH, TILE_SIZE } from '../config.js'
 import { ZONES } from '../../data/zones.js'
 
-const LANDMASSES = [
-  { left: 0, width: 65.7 },
-  { left: 68.6, width: 30.0 }
-]
-
 const percent = (value, total) => (value / total) * 100
 
+const ZONE_ICONS = {
+  guild: '📜',
+  skills: '⚡',
+  projects: '⚒️',
+  vault: '📦'
+}
+
 export function createMinimap({ elements }) {
-  LANDMASSES.forEach((mass) => {
-    const island = document.createElement('div')
-    island.className = 'minimap__island'
-    island.style.left = `${mass.left}%`
-    island.style.width = `${mass.width}%`
-    elements.islands.append(island)
-  })
+  if (elements.islands) {
+    elements.islands.innerHTML = ''
+  }
+
+  if (elements.pins) {
+    elements.pins.innerHTML = ''
+  }
 
   const pins = ZONES.map((zone) => {
-    const pin = document.createElement('span')
-    pin.className = 'minimap__pin'
+    const pin = document.createElement('div')
+    pin.className = 'minimap__location-pin'
     pin.dataset.zone = zone.id
     pin.title = zone.name
+
+    const img = document.createElement('img')
+    img.src = `img/icons/${zone.id}.jpg`
+    img.alt = zone.name
+    img.className = 'minimap__location-img'
+    img.referrerPolicy = 'no-referrer'
+    pin.append(img)
+
     pin.style.left = `${percent(zone.anchor.col * TILE_SIZE, MAP_WIDTH)}%`
     pin.style.top = `${percent(zone.anchor.row * TILE_SIZE, MAP_HEIGHT)}%`
+
     elements.pins.append(pin)
     return pin
   })
@@ -35,6 +46,7 @@ export function createMinimap({ elements }) {
   elements.pins.append(player)
 
   function update({ player: entity }) {
+    if (!entity) return
     const centreX = entity.position.x + entity.width / 2
     const centreY = entity.position.y + entity.height / 2
 
@@ -44,7 +56,7 @@ export function createMinimap({ elements }) {
 
   function setCurrentZone(zoneId) {
     pins.forEach((pin) => {
-      pin.classList.toggle('minimap__pin--current', pin.dataset.zone === zoneId)
+      pin.classList.toggle('minimap__location-pin--current', pin.dataset.zone === zoneId)
     })
   }
 

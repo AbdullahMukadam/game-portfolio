@@ -47,6 +47,14 @@ export function createKeyboard({ onConfirm, onInteract, isBlocked = () => false 
     const isInteract = key === 'e'
     const direction = KEY_DIRECTION[key]
 
+    if (isBlocked()) {
+      if (isInteract) {
+        onInteract()
+        e.preventDefault()
+      }
+      return
+    }
+
     if (isConfirm || isInteract || direction) e.preventDefault()
 
     if (isInteract) {
@@ -59,7 +67,7 @@ export function createKeyboard({ onConfirm, onInteract, isBlocked = () => false 
       return
     }
 
-    if (direction && !isBlocked()) pressDirection(direction)
+    if (direction) pressDirection(direction)
   })
 
   window.addEventListener('keyup', (e) => {

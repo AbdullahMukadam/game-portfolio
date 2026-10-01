@@ -1,6 +1,6 @@
 .mobile-controls {
-  --pad-size: clamp(84px, 26vmin, 132px);
-  --face-size: clamp(56px, 17vmin, 84px);
+  --pad-size: clamp(92px, 24vmin, 130px);
+  --face-size: clamp(52px, 15vmin, 72px);
   position: absolute;
   inset: 0;
   z-index: var(--z-touch);
@@ -9,22 +9,21 @@
 }
 
 .mobile-controls[data-size='small'] {
-  --pad-size: clamp(64px, 20vmin, 96px);
-  --face-size: clamp(46px, 14vmin, 64px);
+  --pad-size: clamp(76px, 19vmin, 100px);
+  --face-size: clamp(44px, 13vmin, 58px);
 }
 
 .mobile-controls[data-size='large'] {
-  --pad-size: clamp(104px, 32vmin, 168px);
-  --face-size: clamp(66px, 21vmin, 100px);
+  --pad-size: clamp(110px, 30vmin, 156px);
+  --face-size: clamp(62px, 18vmin, 84px);
 }
 
 .joystick {
   position: absolute;
-  bottom: 7vmin;
-  left: 6vmin;
+  bottom: calc(max(14px, env(safe-area-inset-bottom, 0px)) + 12px);
+  left: calc(max(14px, env(safe-area-inset-left, 0px)) + 12px);
   width: var(--pad-size);
   height: var(--pad-size);
-  transform: translate(-50%, 50%);
   pointer-events: auto;
   touch-action: none;
 }
@@ -41,10 +40,10 @@
   place-items: center;
   width: 100%;
   height: 100%;
-  background-color: var(--bg-overlay);
+  background-color: rgba(255, 252, 245, 0.88);
   border: var(--border-inner) solid var(--border-wood);
   border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--edge-dark);
+  box-shadow: 0 0 0 2px rgba(120, 69, 34, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.9);
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
@@ -55,7 +54,8 @@
 .joystick__base::after {
   position: absolute;
   content: '';
-  background-color: var(--bevel-hi);
+  background-color: var(--border-wood-light);
+  opacity: 0.5;
 }
 
 .joystick__base::before {
@@ -79,62 +79,63 @@
   z-index: 1;
   width: 42%;
   height: 42%;
-  background-color: var(--border-wood);
-  border: var(--border-inner) solid var(--highlight-cyan);
+  background: linear-gradient(180deg, #f7dda5 0%, #ebd08c 100%);
+  border: var(--border-inner) solid var(--border-wood);
   border-radius: 50%;
-  box-shadow: 0 2px 6px var(--drop);
+  box-shadow: 0 3px 6px var(--drop), inset 0 2px 0 #ffffff;
   transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
 .joystick__base.is-active .joystick__knob {
-  border-color: var(--highlight-gold);
+  border-color: var(--highlight-gold-bright);
 }
 
 .interact-button {
   position: absolute;
-  right: 7vmin;
-  bottom: 8vmin;
+  right: calc(max(14px, env(safe-area-inset-right, 0px)) + 14px);
+  bottom: calc(max(14px, env(safe-area-inset-bottom, 0px)) + 16px);
   display: grid;
   place-items: center;
   width: var(--face-size);
   height: var(--face-size);
   min-width: var(--tap);
   min-height: var(--tap);
-  color: var(--ink-on-dark);
-  background-color: var(--bg-overlay);
+  color: #ffffff;
+  background: linear-gradient(180deg, #fb7185 0%, #e11d48 100%);
   border: var(--border-inner) solid var(--border-wood);
   border-radius: 50%;
-  box-shadow: var(--edge-chrome);
+  box-shadow: 0 3px 0 var(--border-wood), inset 0 2px 0 rgba(255, 255, 255, 0.45);
   pointer-events: auto;
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transition: color 100ms steps(2), border-color 100ms steps(2),
-    box-shadow 100ms steps(2);
+  transition: transform 100ms steps(2), box-shadow 100ms steps(2);
 }
 
 .interact-button__glyph {
   font-size: var(--t-12);
   line-height: 1;
-  text-shadow: 2px 2px 0 var(--drop);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+  font-weight: bold;
 }
 
 .interact-button:disabled {
   color: var(--edge-soft);
+  background: var(--bg-parchment-dark);
   cursor: default;
-  opacity: 0.55;
+  opacity: 0.6;
 }
 
 .interact-button.is-available {
   color: var(--text-dark);
-  background-color: var(--highlight-gold);
-  border-color: var(--highlight-gold);
-  box-shadow: var(--edge-chrome), 0 0 0 3px rgba(251, 242, 54, 0.28);
+  background: linear-gradient(180deg, #fde047 0%, #eab308 100%);
+  border-color: var(--border-wood);
+  box-shadow: 0 3px 0 var(--border-wood), 0 0 14px rgba(234, 179, 8, 0.65), inset 0 2px 0 rgba(255, 255, 255, 0.8);
 }
 
-@media (hover: none) and (pointer: coarse) {
+@media (hover: none) and (pointer: coarse), (max-width: 860px) {
   .mobile-controls {
     display: block;
   }

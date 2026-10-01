@@ -1,0 +1,6 @@
+{
+  "name": "Abdullah Mukadam — Fullstack Developer",
+  "description": "Walk around a pixel-art overworld and open his experience, skills, projects and vault.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

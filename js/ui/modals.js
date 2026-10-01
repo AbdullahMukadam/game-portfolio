@@ -87,18 +87,16 @@ function buildSkills(body) {
 
   tree.append(links)
 
-  function node({ id, name, level, parent, isChild }) {
+  function node({ id, name, parent, isChild }) {
     const item = el('div', isChild ? 'node node--child' : 'node')
     item.dataset.node = id
     if (parent) item.dataset.parent = parent
 
-    item.append(el('span', 'node__name', name))
+    const iconSpan = el('span', 'node__icon', isChild ? '⚡' : '🛡️')
+    const nameSpan = el('span', 'node__name', name)
+    const tagSpan = el('span', 'node__tag', isChild ? 'Tech' : 'Branch')
 
-    const track = el('span', 'node__level')
-    const fill = el('i')
-    fill.style.width = `${level}%`
-    track.append(fill)
-    item.append(track)
+    item.append(iconSpan, nameSpan, tagSpan)
 
     return item
   }

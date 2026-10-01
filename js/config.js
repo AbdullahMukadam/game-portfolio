@@ -30,5 +30,10 @@ export const TILE_MARKER = {
 export const COARSE_POINTER_QUERY = '(hover: none) and (pointer: coarse)'
 
 export function isMobileDevice() {
-  return window.matchMedia(COARSE_POINTER_QUERY).matches
+  return (
+    window.matchMedia(COARSE_POINTER_QUERY).matches ||
+    window.innerWidth <= 860 ||
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0
+  )
 }

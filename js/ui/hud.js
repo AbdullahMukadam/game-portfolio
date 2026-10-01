@@ -11,24 +11,19 @@ export function createHud({ elements, gameState }) {
   fillBar(elements.careerHealth, HUD.careerHealth)
   fillBar(elements.projectMana, HUD.projectMana)
 
-  elements.careerValue.textContent = `${HUD.careerHealth}%`
-  elements.projectManaValue.textContent = `${HUD.projectMana}%`
+  if (elements.careerValue) elements.careerValue.textContent = `${HUD.careerHealth}%`
+  if (elements.projectManaValue) elements.projectManaValue.textContent = `${HUD.projectMana}%`
 
-  const rows = ZONES.map((zone) => {
-    const row = document.createElement('div')
-    row.className = 'keyrow'
+  const rows = ZONES.map((zone, idx) => {
+    const row = document.createElement('span')
+    row.className = 'legend-item'
     row.setAttribute('role', 'listitem')
     row.dataset.zone = zone.id
 
-    const icon = document.createElement('span')
-    icon.className = 'keyrow__icon'
-    icon.innerHTML = renderIcon(zone.icon, { size: 12 })
+    const iconTitle = zone.iconLabel || zone.icon
+    const isLast = idx === ZONES.length - 1
+    row.textContent = `[${iconTitle}: ${zone.label}]${isLast ? '' : ','}`
 
-    const text = document.createElement('span')
-    text.className = 'keyrow__label'
-    text.textContent = zone.label
-
-    row.append(icon, text)
     elements.legend.append(row)
 
     return row
@@ -37,7 +32,7 @@ export function createHud({ elements, gameState }) {
   gameState.onChange((state) => {
     rows.forEach((row) => {
       const isCurrent = row.dataset.zone === state.currentZone
-      row.classList.toggle('keyrow--current', isCurrent)
+      row.classList.toggle('legend-item--current', isCurrent)
     })
   })
 }
