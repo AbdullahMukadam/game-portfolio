@@ -220,10 +220,11 @@ kbd {
   backdrop-filter: blur(4px);
 }
 
-.icon {
-  display: block;
+.icon,
+.ui-icon {
+  display: inline-block;
+  vertical-align: middle;
   flex: none;
-  image-rendering: pixelated;
 }
 
 /* Light retro ambient illumination without dark scanlines */

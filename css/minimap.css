@@ -1,38 +1,56 @@
 .fast-travel-card {
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 12px;
+  bottom: 12px;
   z-index: var(--z-hud);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
   pointer-events: auto;
   user-select: none;
 }
 
 .fast-travel__header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: flex-end;
   width: 100%;
-  padding: 0 2px;
+}
+
+.fast-travel__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  background: linear-gradient(180deg, #fae8b6 0%, #ebd08c 100%);
+  border: 2px solid #5a341b;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  margin-right: 2px;
+}
+
+.fast-travel__icon {
+  width: 11px;
+  height: 11px;
+  color: #78350f;
+  flex: none;
 }
 
 .fast-travel__title {
   font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 700;
   color: #3b2214;
-  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.75);
   letter-spacing: 0.8px;
-  white-space: nowrap;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .mapcard__field {
   position: relative;
   flex: none;
-  width: clamp(148px, 20vw, 205px);
+  width: clamp(150px, 20vw, 210px);
   aspect-ratio: 70 / 40;
   overflow: hidden;
   background-color: #5ab1f5;
@@ -42,9 +60,9 @@
   background-size: 100% 100%;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  border: 2px solid #5a341b;
-  border-radius: 2px;
-  box-shadow: 2px 2px 0 rgba(74, 40, 18, 0.3), inset 0 0 6px rgba(0, 0, 0, 0.35);
+  border: 2.5px solid #5a341b;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45), inset 0 0 8px rgba(0, 0, 0, 0.4);
   cursor: default;
 }
 

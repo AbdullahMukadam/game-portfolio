@@ -3,13 +3,6 @@ import { ZONES } from '../../data/zones.js'
 
 const percent = (value, total) => (value / total) * 100
 
-const ZONE_ICONS = {
-  guild: '📜',
-  skills: '⚡',
-  projects: '⚒️',
-  vault: '📦'
-}
-
 export function createMinimap({ elements }) {
   if (elements.islands) {
     elements.islands.innerHTML = ''

@@ -31,6 +31,7 @@ function query() {
     positionReset: document.querySelector('#positionReset'),
     moveHint: document.querySelector('#moveHint'),
 
+    hudCard: document.querySelector('.hud__card'),
     legend: document.querySelector('#legend'),
     careerHealth: document.querySelector('#careerHealthFill'),
     careerValue: document.querySelector('#careerValue'),
@@ -161,9 +162,11 @@ function boot() {
       careerHealth: dom.careerHealth,
       careerValue: dom.careerValue,
       projectMana: dom.projectMana,
-      projectManaValue: dom.manaValue
+      projectManaValue: dom.manaValue,
+      card: dom.hudCard
     },
-    gameState
+    gameState,
+    onOpenModal: (zoneId) => modals.open(zoneId)
   })
 
   const game = createGame({

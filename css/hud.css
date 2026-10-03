@@ -1,7 +1,7 @@
 .hud {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 12px;
   z-index: var(--z-hud);
   pointer-events: none;
 }
@@ -9,29 +9,42 @@
 .hud__card {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px 10px 6px 8px;
-  background-color: rgba(254, 250, 242, 0.96);
-  border: 2px solid #5a341b;
-  border-radius: 2px;
-  box-shadow: 2px 2px 0 rgba(74, 40, 18, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  gap: 12px;
+  padding: 8px 14px 10px 10px;
+  background: linear-gradient(180deg, #fdfaf3 0%, #f6edd9 100%);
+  border: 2.5px solid #4a2813;
+  outline: 1.5px solid #b45309;
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   pointer-events: auto;
   backdrop-filter: blur(2px);
+  user-select: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hud__card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.hud__card:active {
+  transform: translateY(1px);
 }
 
 .hud__avatar-box {
   position: relative;
   width: 44px;
-  height: 48px;
+  height: 46px;
   flex: none;
-  background: #fdf5e7;
-  border: 2px solid #784522;
-  border-radius: 2px;
-  overflow: visible;
-  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.15), 1px 1px 0 rgba(120, 69, 34, 0.2);
+  background: #3b2214;
+  border: 2px solid #b45309;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 2px;
 }
 
 .hud__avatar {
@@ -40,7 +53,7 @@
   object-fit: cover;
   object-position: top center;
   image-rendering: pixelated;
-  border-radius: 1px;
+  border-radius: 2px;
 }
 
 .hud__lvl {
@@ -48,15 +61,15 @@
   bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #b45309;
+  background: linear-gradient(180deg, #d97706 0%, #b45309 100%);
   color: #ffffff;
   font-family: var(--font-ui);
   font-size: 8px;
   font-weight: 700;
-  padding: 1px 4px;
-  border: 1px solid #5a341b;
+  padding: 1px 5px;
+  border: 1px solid #78350f;
   border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   letter-spacing: 0.5px;
   white-space: nowrap;
   line-height: 1.1;
@@ -65,13 +78,14 @@
 .hud__info {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
   min-width: 0;
+  padding-bottom: 1px;
 }
 
 .hud__identity {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 6px;
 }
 
@@ -80,17 +94,23 @@
   font-size: 11px;
   font-weight: 700;
   color: #2c190e;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
   white-space: nowrap;
 }
 
 .hud__class {
-  font-family: var(--font-read);
-  font-size: 11px;
-  font-weight: 500;
-  color: #9a5f35;
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 700;
+  color: #b45309;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  padding: 1px 5px;
+  border-radius: 2px;
   white-space: nowrap;
-  line-height: 1;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .hud__vitals {
@@ -110,26 +130,35 @@
   align-items: center;
   gap: 4px;
   font-family: var(--font-ui);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  color: #382113;
-  width: 46px;
+  color: #4a2813;
+  width: 42px;
   flex: none;
 }
 
 .vital__icon {
-  font-size: 10px;
+  display: flex;
+  align-items: center;
   line-height: 1;
+}
+
+.vital--health .vital__icon {
+  color: #dc2626;
+}
+
+.vital--mana .vital__icon {
+  color: #0284c7;
 }
 
 .bar {
   position: relative;
   width: 104px;
   height: 10px;
-  background-color: #ebd8bd;
+  background-color: #e5cfb2;
   border: 1.5px solid #4a2813;
-  border-radius: 1px;
-  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 
@@ -148,11 +177,11 @@
 
 .vital__value {
   font-family: var(--font-ui);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   color: #784522;
   font-variant-numeric: tabular-nums;
-  width: 32px;
+  width: 30px;
   text-align: right;
   flex: none;
 }
@@ -165,87 +194,196 @@
   color: #0369a1;
 }
 
-/* Centered bottom controls banner matching the screenshot */
+/* ==========================================================================
+   Centered Bottom Controls Plaque
+   ========================================================================== */
+
 .hud__controls {
   position: absolute;
-  bottom: 10px;
+  bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   z-index: var(--z-hud);
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 14px;
-  background-color: #382113;
-  border: 2px solid #b67b44;
-  border-radius: 2px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-  font-family: var(--font-ui);
-  font-size: 11px;
-  color: #ffffff;
+  gap: 8px;
+  padding: 4px 12px;
+  background: rgba(39, 21, 11, 0.92);
+  border: 1.5px solid #b67b44;
+  outline: 1px solid #4a2813;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
   pointer-events: none;
   white-space: nowrap;
-  letter-spacing: 0.5px;
   user-select: none;
+  backdrop-filter: blur(2px);
 }
 
-.hud__key-combo {
-  font-weight: bold;
+.hud__control-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.hud__sep {
-  color: #fbbf24;
-  margin-right: 2px;
+.hud__control-item kbd {
+  padding: 1px 4px;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 700;
+  color: #3b2214;
+  background: #ffffff;
+  border: 1px solid #5a341b;
+  border-radius: 2px;
+  box-shadow: 0 1px 0 #5a341b;
+  line-height: 1.2;
 }
 
-/* Bottom-left ICON LEGEND plaque matching the screenshot */
+.hud__control-label {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fdf6e9;
+  letter-spacing: 0.5px;
+}
+
+.hud__control-sep {
+  color: #d97706;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* ==========================================================================
+   Bottom-Left Realm Discoveries Legend Card
+   ========================================================================== */
+
 .icon-legend-card {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 12px;
+  left: 12px;
   z-index: var(--z-hud);
-  max-width: clamp(260px, 46vw, 560px);
-  padding: 6px 12px;
-  background-color: #faebd2;
+  max-width: clamp(260px, 48vw, 580px);
+  padding: 7px 11px;
+  background: linear-gradient(180deg, #fdfaf3 0%, #f6edd9 100%);
   border: 2px solid #5a341b;
-  border-radius: 2px;
-  box-shadow: 2px 2px 0 rgba(74, 40, 18, 0.25);
+  outline: 1.5px solid #b45309;
+  border-radius: 5px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
   pointer-events: auto;
   user-select: none;
 }
 
+.icon-legend__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #d4b896;
+}
+
+.icon-legend__title-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #78350f;
+}
+
+.icon-legend__header-icon {
+  width: 12px;
+  height: 12px;
+  color: #78350f;
+  flex: none;
+}
+
 .icon-legend__title {
   font-family: var(--font-ui);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  color: #3b2214;
-  letter-spacing: 0.5px;
+  color: #5a341b;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.icon-legend__hint {
+  font-family: var(--font-read);
+  font-size: 10px;
+  font-weight: 600;
+  color: #9a5f35;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
 }
 
 .icon-legend__list {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: 3px 6px;
-  font-family: var(--font-read);
-  font-size: 12px;
-  line-height: 1.35;
-  color: #2c190e;
-  font-weight: 600;
+  align-items: center;
+  gap: 6px;
 }
 
 .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  background: #ffffff;
+  border: 1.5px solid #d4b896;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 700;
+  color: #4a2813;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
   white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.legend-item:hover,
+.legend-item:focus-visible {
+  transform: translateY(-2px);
+  border-color: #b45309;
+  background: #fffbeb;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  color: #b45309;
+}
+
+.legend-item:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.legend-item__icon {
+  display: flex;
+  align-items: center;
+  color: #78350f;
+  flex: none;
+}
+
+.legend-item__label {
+  line-height: 1;
 }
 
 .legend-item--current {
-  color: #b45309;
-  text-decoration: underline;
-  text-shadow: 0 0 4px rgba(245, 158, 11, 0.5);
+  background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+  border-color: #d97706;
+  color: #78350f;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.45);
+  font-weight: 800;
 }
+
+.legend-item--current .legend-item__icon {
+  color: #b45309;
+}
+
+/* ==========================================================================
+   Responsive Overrides
+   ========================================================================== */
 
 @media (max-width: 860px), (hover: none) and (pointer: coarse) {
   .icon-legend-card {
@@ -264,12 +402,12 @@
   }
 
   .hud__card {
-    padding: 3px 6px 3px 5px;
-    gap: 6px;
+    padding: 6px 10px 8px 8px;
+    gap: 8px;
   }
 
   .hud__avatar-box {
-    width: 34px;
+    width: 36px;
     height: 38px;
   }
 
@@ -282,17 +420,17 @@
   }
 
   .vital__tag {
-    width: 38px;
-    font-size: 9px;
+    width: 36px;
+    font-size: 8px;
   }
 
   .bar {
-    width: 72px;
+    width: 76px;
     height: 8px;
   }
 
   .vital__value {
     width: 26px;
-    font-size: 9px;
+    font-size: 8px;
   }
 }
